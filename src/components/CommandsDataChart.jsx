@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {makeStyles} from '@mui/styles';
 import {DataGrid} from '@mui/x-data-grid';
 import {Box} from "@mui/material";
-import {fetchCommandEventData} from "../services/api.js";
+import {fetchCommandEventData} from "../services/api.ts";
 
 const useStyles = makeStyles(() => ({
     root: {
