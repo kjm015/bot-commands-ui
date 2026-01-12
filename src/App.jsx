@@ -1,28 +1,17 @@
-import {useState} from 'react'
-import reactLogo from './assets/sg.svg'
-import viteLogo from '/vite.svg'
+import springLogo from './assets/spring.png'
 import './App.css'
 import CommandsDataChart from "./components/CommandsDataChart.jsx";
 
 function App() {
-    const [count, setCount] = useState(0)
 
     return (
         <>
             <div>
-                <a href="https://vite.dev" target="_blank">
-                    <img src={viteLogo} className="logo" alt="Vite logo"/>
-                </a>
-                <a href="https://en.wikipedia.org/wiki/Republic_of_Singapore_Air_Force" target="_blank">
-                    <img src={reactLogo} className="logo react" alt="React logo"/>
+                <a href="https://start.spring.io/" target="_blank">
+                    <img src={springLogo} className="logo spring" alt="Spring logo"/>
                 </a>
             </div>
             <h1>Bot Commands UI</h1>
-            <div className="card">
-                <button onClick={() => setCount((count) => count + 1)}>
-                    count is {count}
-                </button>
-            </div>
             <h2>
                 Commands Usage Chart
             </h2>

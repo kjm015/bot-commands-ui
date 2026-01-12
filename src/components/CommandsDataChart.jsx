@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {makeStyles} from '@mui/styles';
 import {DataGrid} from '@mui/x-data-grid';
 import {Box} from "@mui/material";
 import {fetchCommandEventData} from "../services/api.ts";
+import {PieChart} from '@mui/x-charts/PieChart';
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -19,6 +20,7 @@ export default function CommandsDataChart() {
     const classes = useStyles();
 
     const [data, setData] = useState([]);
+    const [chartData, setChartData] = useState([])
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -50,13 +52,36 @@ export default function CommandsDataChart() {
                 setLoading(false);
 
                 let info = [];
+                let chartInfo = [];
+
+                const chartMap = new Map();
 
                 for (let i = 0; i < data.length; i++) {
-                    let item =  {id: i, username: data[i].sender, commandName: data[i].commandName, args: data[i].commandArguments}
+                    let item = {
+                        id: i,
+                        username: data[i].sender,
+                        commandName: data[i].commandName,
+                        args: data[i].commandArguments
+                    }
                     info.push(item);
+
+                    if (chartMap.has(data[i].commandName)) {
+                        chartMap.set(data[i].commandName, chartMap.get(data[i].commandName) + 1);
+                    } else {
+                        chartMap.set(data[i].commandName, 1);
+                    }
                 }
 
+                let id = 0;
+
+                chartMap.forEach((value, key) => {
+                    let chartItem = {id: id, value: value, label: key}
+                    chartInfo.push(chartItem);
+                    id++;
+                })
+
                 setData(info);
+                setChartData(chartInfo);
             })
             .catch(err => {
                 setError(err);
@@ -68,6 +93,15 @@ export default function CommandsDataChart() {
     if (error) return <p>Error loading data!</p>;
 
     return <div className={classes.root}>
+        <PieChart
+            series={[
+                {
+                    data: chartData,
+                },
+            ]}
+            width={400}
+            height={400}
+        />
         <Box sx={{height: 400, width: '100%'}}>
             <DataGrid
                 rows={data}
