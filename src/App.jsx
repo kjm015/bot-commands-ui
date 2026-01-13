@@ -11,7 +11,7 @@ function App() {
                     <img src={springLogo} className="logo spring" alt="Spring logo"/>
                 </a>
             </div>
-            <h1>Bot Commands UI</h1>
+            <h1>Spring Discord Bot Data Visualizer</h1>
             <h2>
                 Commands Usage Chart
             </h2>

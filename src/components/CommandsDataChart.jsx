@@ -4,6 +4,7 @@ import {DataGrid} from '@mui/x-data-grid';
 import {Box} from "@mui/material";
 import {fetchCommandEventData} from "../services/api.ts";
 import {PieChart} from '@mui/x-charts/PieChart';
+import {pieArcLabelClasses} from "@mui/x-charts";
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -75,7 +76,7 @@ export default function CommandsDataChart() {
                 let id = 0;
 
                 chartMap.forEach((value, key) => {
-                    let chartItem = {id: id, value: value, label: key}
+                    let chartItem = {id: id, value: value, label: `/${key}`}
                     chartInfo.push(chartItem);
                     id++;
                 })
@@ -96,9 +97,19 @@ export default function CommandsDataChart() {
         <PieChart
             series={[
                 {
+                    arcLabel: (item) => `${item.value}`,
+                    arcLabelMinAngle: 35,
+                    arcLabelRadius: '60%',
                     data: chartData,
+                    highlightScope: { fade: 'global', highlight: 'item' },
+                    faded: { innerRadius: 30, additionalRadius: -30, color: 'gray' },
                 },
             ]}
+            sx={{
+                [`& .${pieArcLabelClasses.root}`]: {
+                    fontWeight: 'bold',
+                },
+            }}
             width={400}
             height={400}
         />
