@@ -24,6 +24,7 @@ export default function CommandsDataChart() {
     const [chartData, setChartData] = useState([])
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [refreshTimer, setRefreshTimer] = useState(0);
 
     let columns = [
         {field: 'id', headerName: 'ID', width: 90},
@@ -48,6 +49,12 @@ export default function CommandsDataChart() {
     ];
 
     useEffect(() => {
+
+        // Refresh every 15 seconds
+        setInterval(() => {
+            setRefreshTimer(refreshTimer + 1);
+        }, 15000);
+
         fetchCommandEventData()
             .then(data => {
                 setLoading(false);
@@ -88,7 +95,7 @@ export default function CommandsDataChart() {
                 setError(err);
                 setLoading(false);
             });
-    }, []);
+    }, [refreshTimer]);
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error loading data!</p>;
@@ -101,8 +108,8 @@ export default function CommandsDataChart() {
                     arcLabelMinAngle: 35,
                     arcLabelRadius: '60%',
                     data: chartData,
-                    highlightScope: { fade: 'global', highlight: 'item' },
-                    faded: { innerRadius: 30, additionalRadius: -30, color: 'gray' },
+                    highlightScope: {fade: 'global', highlight: 'item'},
+                    faded: {innerRadius: 30, additionalRadius: -30, color: 'gray'},
                 },
             ]}
             sx={{
